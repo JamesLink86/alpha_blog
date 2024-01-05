@@ -12,6 +12,10 @@ class ArticlesController < ApplicationController
         @article = Article.new
     end
 
+    def edit
+        @article = Article.find(params[:id])
+    end
+
     def create
         @article = Article.create(article_params)
         if @article.save
@@ -19,6 +23,16 @@ class ArticlesController < ApplicationController
             redirect_to(@article) #(:action => 'show', id: article.id)
         else
             render "new", status: :unprocessable_entity
+        end
+    end
+
+    def update
+        @article = Article.find(params[:id])
+        if @article.update(article_params)
+            flash[:notice] = "Article was updated succesfully."
+            redirect_to(@article)
+        else
+            render "edit"
         end
     end
      
